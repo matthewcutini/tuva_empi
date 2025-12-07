@@ -1,0 +1,19 @@
+name: tuva-empi-frontend
+
+# Command to start the application (optional, defaults to "npm run start")
+command: ["npm", "run", "start"]
+
+# Environment variables
+env:
+  - name: PORT
+    value: "3000"
+  - name: NODE_ENV
+    value: "production"
+  - name: VITE_API_BASE_URL
+    value: "http://localhost:8000/api/"
+
+# Resources (optional)
+# resources:
+#   cpu: "1"
+#   memory: "2Gi"
+
