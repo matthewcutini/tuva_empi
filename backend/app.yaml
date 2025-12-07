@@ -1,0 +1,53 @@
+name: tuva-empi-backend
+
+# Command to start the Django application
+command: ["gunicorn", "tuva_empi.wsgi:application", "--bind", "0.0.0.0:8000", "--workers", "4"]
+
+# Environment variables
+env:
+  - name: PORT
+    value: "8000"
+  - name: DJANGO_SETTINGS_MODULE
+    value: "tuva_empi.settings"
+  - name: PYTHONUNBUFFERED
+    value: "1"
+  - name: TUVA_EMPI_CONFIG_FILE
+    value: "config/databricks.json"
+
+  # PostgreSQL Database Configuration (Databricks-hosted PostgreSQL)
+  - name: DATABASE_HOST
+    value: "instance-1cd032f3-76af-44ce-aa44-c2ed9c6e274d.database.cloud.databricks.com"
+  - name: DATABASE_NAME
+    value: "databricks_postgres"
+  - name: DATABASE_USER
+    value: "mattcutini@fastmail.com"
+  - name: DATABASE_PASSWORD
+    value: "${DATABASE_PASSWORD}"  # Set this in Databricks Apps secrets
+  - name: DATABASE_PORT
+    value: "5432"
+  - name: DATABASE_SSL_MODE
+    value: "require"
+
+  # Optional: Databricks SQL Warehouse for analytics (if needed)
+  - name: DATABRICKS_WAREHOUSE_PATH
+    value: "/sql/1.0/warehouses/d8bc3f9807829374"
+  - name: DATABRICKS_HOST
+    value: "${DATABRICKS_HOST}"
+  - name: DATABRICKS_TOKEN
+    value: "${DATABRICKS_TOKEN}"
+
+  # Django settings
+  - name: SECRET_KEY
+    value: "change-this-to-a-secure-random-secret-key"
+  - name: ALLOWED_HOSTS
+    value: ".databricks.com,localhost,127.0.0.1"
+  - name: CORS_ALLOWED_ORIGINS
+    value: "https://*.databricks.com"
+  - name: DEBUG
+    value: "False"
+
+# Resources (optional)
+resources:
+  cpu: "2"
+  memory: "4Gi"
+
