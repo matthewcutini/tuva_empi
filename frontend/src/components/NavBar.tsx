@@ -1,7 +1,7 @@
-import Nav from "@/components/nav";
-import { Route, getRoute } from "@/lib/routes";
+import Nav from '@/components/nav';
+import { Route, getRoute } from '@/lib/routes';
 
-const navMenuItems = [{ label: "Log out", path: getRoute(Route.home) }];
+const navMenuItems = [{ label: 'Log out', path: getRoute(Route.home) }];
 
 interface NavBarProps {
   selectedTab: string;
@@ -20,3 +20,4 @@ const NavBar: React.FC<NavBarProps> = ({ selectedTab }: NavBarProps) => {
 };
 
 export default NavBar;
+

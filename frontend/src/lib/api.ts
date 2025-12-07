@@ -85,7 +85,7 @@ export interface PersonRecordComment {
 export const fetchDataSources = async (): Promise<DataSource[]> => {
   console.info("Fetching data sources");
 
-  const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+  const apiBaseUrl = import.meta.env.VITE_API_BASE_URL || '/api/';
   const url = apiBaseUrl + "data-sources";
 
   try {
@@ -104,7 +104,7 @@ export const fetchPersons = async (
 ): Promise<PersonSummary[]> => {
   console.info("Searching for Persons with search terms: ", searchTerms);
 
-  const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+  const apiBaseUrl = import.meta.env.VITE_API_BASE_URL || '/api/';
   const url = apiBaseUrl + "persons";
   const searchParams: Record<string, string> = {};
 
@@ -143,7 +143,7 @@ export const fetchPersons = async (
 export const fetchPerson = async (id: string): Promise<Person | undefined> => {
   console.info("Fetching Person with id: ", id);
 
-  const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+  const apiBaseUrl = import.meta.env.VITE_API_BASE_URL || '/api/';
   const url = apiBaseUrl + `persons/${id}`;
 
   try {
@@ -165,7 +165,7 @@ export const fetchPotentialMatches = async (
     searchTerms,
   );
 
-  const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+  const apiBaseUrl = import.meta.env.VITE_API_BASE_URL || '/api/';
   const url = apiBaseUrl + "potential-matches";
   const searchParams: Record<string, string> = {};
 
@@ -207,7 +207,7 @@ export const fetchPotentialMatch = async (
 ): Promise<PotentialMatch | undefined> => {
   console.info("Fetching Potential Match with id: ", id);
 
-  const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+  const apiBaseUrl = import.meta.env.VITE_API_BASE_URL || '/api/';
   const url = apiBaseUrl + `potential-matches/${id}`;
 
   try {
@@ -229,7 +229,7 @@ export const matchPersonRecords = async (
 ): Promise<undefined> => {
   console.info("Matching person records");
 
-  const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+  const apiBaseUrl = import.meta.env.VITE_API_BASE_URL || '/api/';
   const url = apiBaseUrl + "matches";
 
   try {

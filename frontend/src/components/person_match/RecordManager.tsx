@@ -1,9 +1,7 @@
-"use client";
-
-import React from "react";
-import { Button } from "@/components/ui/button";
-import { useRouter } from "next/navigation";
-import { useAppStore } from "@/providers/app_store_provider";
+import React from 'react';
+import { Button } from '@/components/ui/button';
+import { useNavigate } from 'react-router-dom';
+import { useAppStore } from '@/providers/app_store_provider';
 import {
   ChevronDown,
   ChevronUp,
@@ -12,8 +10,8 @@ import {
   GripVertical,
   LoaderCircle,
   Check,
-} from "lucide-react";
-import { getRoute, Route } from "@/lib/routes";
+} from 'lucide-react';
+import { getRoute, Route } from '@/lib/routes';
 import {
   Table,
   TableBody,
@@ -21,13 +19,13 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
+} from '@/components/ui/table';
 import {
   PersonWithMetadata,
   PersonRecordWithMetadata,
   PotentialMatchWithMetadata,
-} from "@/lib/stores/person_match_slice";
-import { useDrag, useDrop } from "@react-aria/dnd";
+} from '@/lib/stores/person_match_slice';
+import { useDrag, useDrop } from '@react-aria/dnd';
 
 interface PersonRecordRowDetailProps {
   record: PersonRecordWithMetadata;
@@ -39,7 +37,7 @@ interface PersonRecordRowDetailField {
 }
 
 const formatMatchProbability = (
-  probability: number | undefined,
+  probability: number | undefined
 ): string | undefined => {
   return probability !== undefined
     ? `${Math.round(probability * 100)}%`
@@ -50,7 +48,7 @@ export const PersonRecordRowDetail: React.FC<PersonRecordRowDetailProps> = ({
   record,
 }) => {
   const formattedPercentage = formatMatchProbability(
-    record.highest_match_probability,
+    record.highest_match_probability
   );
 
   const rows: [
@@ -58,25 +56,25 @@ export const PersonRecordRowDetail: React.FC<PersonRecordRowDetailProps> = ({
     PersonRecordRowDetailField | null,
   ][] = [
     [
-      { label: "First Name", fieldName: "first_name" },
-      { label: "Last Name", fieldName: "last_name" },
+      { label: 'First Name', fieldName: 'first_name' },
+      { label: 'Last Name', fieldName: 'last_name' },
     ],
     [
-      { label: "Birth Date", fieldName: "birth_date" },
-      { label: "Social Security Number", fieldName: "social_security_number" },
+      { label: 'Birth Date', fieldName: 'birth_date' },
+      { label: 'Social Security Number', fieldName: 'social_security_number' },
     ],
     [
-      { label: "Sex", fieldName: "sex" },
-      { label: "Race", fieldName: "race" },
+      { label: 'Sex', fieldName: 'sex' },
+      { label: 'Race', fieldName: 'race' },
     ],
     [
-      { label: "Address", fieldName: "address" },
-      { label: "City", fieldName: "city" },
+      { label: 'Address', fieldName: 'address' },
+      { label: 'City', fieldName: 'city' },
     ],
-    [{ label: "State", fieldName: "state" }, null],
+    [{ label: 'State', fieldName: 'state' }, null],
     [
-      { label: "Data Source", fieldName: "data_source" },
-      { label: "Source Person ID", fieldName: "source_person_id" },
+      { label: 'Data Source', fieldName: 'data_source' },
+      { label: 'Source Person ID', fieldName: 'source_person_id' },
     ],
   ];
 
@@ -88,14 +86,14 @@ export const PersonRecordRowDetail: React.FC<PersonRecordRowDetailProps> = ({
             <div className="flex flex-col w-full py-1 px-2 rounded max-w-1/2">
               <p className="text-xs text-muted-foreground">{row[0].label}</p>
               <p className="text-sm">
-                {record[row[0].fieldName]?.toString() ?? ""}
+                {record[row[0].fieldName]?.toString() ?? ''}
               </p>
             </div>
             {row[1] ? (
               <div className="flex flex-col w-full py-1 px-2 rounded max-w-1/2">
                 <p className="text-xs text-muted-foreground">{row[1].label}</p>
                 <p className="text-sm">
-                  {record[row[1].fieldName]?.toString() ?? ""}
+                  {record[row[1].fieldName]?.toString() ?? ''}
                 </p>
               </div>
             ) : (
@@ -130,14 +128,14 @@ export const PersonRecordRow: React.FC<PersonRecordRowProps> = ({
   draggable,
 }) => {
   const formattedPercentage = formatMatchProbability(
-    record.highest_match_probability,
+    record.highest_match_probability
   );
 
   const { dragProps } = useDrag({
     getItems() {
       return [
         {
-          "tuva/personrecord": JSON.stringify(record),
+          'tuva/personrecord': JSON.stringify(record),
         },
       ];
     },
@@ -146,7 +144,7 @@ export const PersonRecordRow: React.FC<PersonRecordRowProps> = ({
   return (
     <React.Fragment>
       <TableRow
-        className={record.expanded ? "bg-accent hover:bg-accent" : ""}
+        className={record.expanded ? 'bg-accent hover:bg-accent' : ''}
         {...(draggable ? dragProps : {})}
       >
         <TableCell>
@@ -174,7 +172,7 @@ export const PersonRecordRow: React.FC<PersonRecordRowProps> = ({
           </Button>
         </TableCell>
       </TableRow>
-      <TableRow className={record.expanded ? "" : "hidden"}>
+      <TableRow className={record.expanded ? '' : 'hidden'}>
         <TableCell
           colSpan={formattedPercentage ? 9 : 8}
           className="bg-white hover:bg-white"
@@ -195,11 +193,11 @@ interface PersonRowProps {
   onExpandRecord: (
     personId: string,
     recordId: string,
-    expanded: boolean,
+    expanded: boolean
   ) => void;
   onRecordDrop?: (
     personRecord: PersonRecordWithMetadata,
-    toPersonId: string,
+    toPersonId: string
   ) => void;
   recordDraggable: boolean;
 }
@@ -213,25 +211,25 @@ const PersonRow: React.FC<PersonRowProps> = ({
   recordDraggable,
 }: PersonRowProps) => {
   const bgClassNames = [
-    "bg-chart-2",
-    "bg-chart-1",
-    "bg-chart-3",
-    "bg-chart-4",
-    "bg-chart-5",
+    'bg-chart-2',
+    'bg-chart-1',
+    'bg-chart-3',
+    'bg-chart-4',
+    'bg-chart-5',
   ];
   const bgClassNamesMuted = [
-    "bg-chart-2/15",
-    "bg-chart-1/15",
-    "bg-chart-3/15",
-    "bg-chart-4/15",
-    "bg-chart-5/15",
+    'bg-chart-2/15',
+    'bg-chart-1/15',
+    'bg-chart-3/15',
+    'bg-chart-4/15',
+    'bg-chart-5/15',
   ];
   const bgClassNamesLessMuted = [
-    "bg-chart-2/25",
-    "bg-chart-1/25",
-    "bg-chart-3/25",
-    "bg-chart-4/25",
-    "bg-chart-5/25",
+    'bg-chart-2/25',
+    'bg-chart-1/25',
+    'bg-chart-3/25',
+    'bg-chart-4/25',
+    'bg-chart-5/25',
   ];
   const bgClassName = bgClassNames[ndx % 5];
   const bgClassNameMuted = bgClassNamesMuted[ndx % 5];
@@ -243,29 +241,29 @@ const PersonRow: React.FC<PersonRowProps> = ({
     async onDrop(e) {
       const dropItem = e.items[0];
 
-      if (dropItem.kind === "text" && "getText" in dropItem) {
-        const personRecordJSON = await dropItem.getText("tuva/personrecord");
+      if (dropItem.kind === 'text' && 'getText' in dropItem) {
+        const personRecordJSON = await dropItem.getText('tuva/personrecord');
         const personRecord = JSON.parse(personRecordJSON);
 
         if (personRecord && onRecordDrop) {
           onRecordDrop(personRecord, person.id);
         }
       } else {
-        console.error("getText is not available on this DropItem type.");
+        console.error('getText is not available on this DropItem type.');
       }
     },
   });
 
-  const isNewPerson = person.id.startsWith("new-person-");
+  const isNewPerson = person.id.startsWith('new-person-');
   const personIndex = isNewPerson
-    ? parseInt(person.id.replace("new-person-", ""))
+    ? parseInt(person.id.replace('new-person-', ''))
     : undefined;
   const displayText = isNewPerson ? `New Person ${personIndex}` : person.id;
 
   return (
     <React.Fragment>
       <TableRow
-        className={isDropTarget ? bgClassNameLessMuted : "hover:bg-transparent"}
+        className={isDropTarget ? bgClassNameLessMuted : 'hover:bg-transparent'}
         ref={ref}
         {...dropProps}
       >
@@ -322,34 +320,34 @@ export const RecordTableHeader: React.FC<TableHeaderProps> = ({
 );
 
 export const RecordManager: React.FC = () => {
-  const router = useRouter();
+  const navigate = useNavigate();
   const matchMode = useAppStore((state) => state.personMatch.matchMode);
   const currentPotentialMatches = useAppStore(
-    (state) => state.personMatch.currentPotentialMatches,
+    (state) => state.personMatch.currentPotentialMatches
   );
   const selectedPotentialMatchId = useAppStore(
-    (state) => state.personMatch.selectedPotentialMatchId,
+    (state) => state.personMatch.selectedPotentialMatchId
   );
   const currentPersons = useAppStore(
-    (state) => state.personMatch.currentPersons,
+    (state) => state.personMatch.currentPersons
   );
   const selectedPersonId = useAppStore(
-    (state) => state.personMatch.selectedPersonId,
+    (state) => state.personMatch.selectedPersonId
   );
   const resetCurrentPotentialMatch = useAppStore(
-    (state) => state.personMatch.resetCurrentPotentialMatch,
+    (state) => state.personMatch.resetCurrentPotentialMatch
   );
   const setPersonRecordExpanded = useAppStore(
-    (state) => state.personMatch.setPersonRecordExpanded,
+    (state) => state.personMatch.setPersonRecordExpanded
   );
   const movePersonRecord = useAppStore(
-    (state) => state.personMatch.movePersonRecord,
+    (state) => state.personMatch.movePersonRecord
   );
   const matchPersonRecords = useAppStore(
-    (state) => state.personMatch.matchPersonRecords,
+    (state) => state.personMatch.matchPersonRecords
   );
   const createNewPerson = useAppStore(
-    (state) => state.personMatch.createNewPerson,
+    (state) => state.personMatch.createNewPerson
   );
 
   const potentialMatch =
@@ -385,11 +383,9 @@ export const RecordManager: React.FC = () => {
                 const params: { matchMode?: string; id?: string } = {};
 
                 if (matchMode) {
-                  params.matchMode = "true";
+                  params.matchMode = 'true';
                 }
-                router.push(getRoute(Route.personMatch, undefined, params), {
-                  scroll: false,
-                });
+                navigate(getRoute(Route.personMatch, undefined, params));
               }}
             >
               Save
@@ -408,7 +404,7 @@ export const RecordManager: React.FC = () => {
                 {Object.values(
                   matchMode
                     ? (potentialMatch as PotentialMatchWithMetadata).persons
-                    : persons,
+                    : persons
                 ).map((person, ndx) => (
                   <PersonRow
                     key={person.id}
@@ -418,7 +414,7 @@ export const RecordManager: React.FC = () => {
                     onExpandRecord={(
                       personId: string,
                       recordId: string,
-                      expanded: boolean,
+                      expanded: boolean
                     ) =>
                       setPersonRecordExpanded(
                         personId,
@@ -426,14 +422,14 @@ export const RecordManager: React.FC = () => {
                         expanded,
                         matchMode
                           ? (potentialMatch as PotentialMatchWithMetadata).id
-                          : undefined,
+                          : undefined
                       )
                     }
                     onRecordDrop={
                       matchMode
                         ? movePersonRecord.bind(
                             null,
-                            (potentialMatch as PotentialMatchWithMetadata).id,
+                            (potentialMatch as PotentialMatchWithMetadata).id
                           )
                         : undefined
                     }
@@ -461,10 +457,11 @@ export const RecordManager: React.FC = () => {
       ) : (
         <div className="flex flex-row items-center justify-center max-h-[444px] h-full w-full bg-zinc-50">
           <p className="text-sm">
-            {`Select ${matchMode ? "potential matches" : "persons"} on the left to view and manage records`}
+            {`Select ${matchMode ? 'potential matches' : 'persons'} on the left to view and manage records`}
           </p>
         </div>
       )}
     </div>
   );
 };
+

@@ -1,11 +1,9 @@
-"use client";
-
-import React from "react";
-import { Button } from "@/components/ui/button";
-import { useRouter } from "next/navigation";
-import { useAppStore } from "@/providers/app_store_provider";
-import { Filter, X } from "lucide-react";
-import { getRoute, Route } from "@/lib/routes";
+import React from 'react';
+import { Button } from '@/components/ui/button';
+import { useNavigate } from 'react-router-dom';
+import { useAppStore } from '@/providers/app_store_provider';
+import { Filter, X } from 'lucide-react';
+import { getRoute, Route } from '@/lib/routes';
 import {
   Drawer,
   DrawerClose,
@@ -15,11 +13,11 @@ import {
   DrawerTitle,
   DrawerDescription,
   DrawerTrigger,
-} from "@/components/ui/drawer";
-import { Combobox } from "@/components/combobox";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
-import { PotentialMatchSummary } from "@/lib/api";
+} from '@/components/ui/drawer';
+import { Combobox } from '@/components/combobox';
+import { Label } from '@/components/ui/label';
+import { Input } from '@/components/ui/input';
+import { PotentialMatchSummary } from '@/lib/api';
 
 // Format match probability for display
 const formatMatchProbability = (probability: number): string => {
@@ -35,13 +33,13 @@ const PersonListFilterDrawer: React.FC = () => {
   }));
   const searchTerms = useAppStore((state) => state.personMatch.searchTerms);
   const updateSearchTerms = useAppStore(
-    (state) => state.personMatch.updateSearchTerms,
+    (state) => state.personMatch.updateSearchTerms
   );
   const clearSearchTerms = useAppStore(
-    (state) => state.personMatch.clearSearchTerms,
+    (state) => state.personMatch.clearSearchTerms
   );
   const fetchSummaries = useAppStore(
-    (state) => state.personMatch.fetchSummaries,
+    (state) => state.personMatch.fetchSummaries
   );
 
   return (
@@ -75,7 +73,7 @@ const PersonListFilterDrawer: React.FC = () => {
               items={dataSourceOptions}
               placeholder="All data sources"
               onChange={(value: string) =>
-                updateSearchTerms("data_source", value)
+                updateSearchTerms('data_source', value)
               }
             />
           </div>
@@ -85,8 +83,8 @@ const PersonListFilterDrawer: React.FC = () => {
             </Label>
             <Input
               id="first-name-filter"
-              value={searchTerms.first_name ?? ""}
-              onChange={(e) => updateSearchTerms("first_name", e.target.value)}
+              value={searchTerms.first_name ?? ''}
+              onChange={(e) => updateSearchTerms('first_name', e.target.value)}
             />
           </div>
           <div className="w-full flex flex-col gap-2">
@@ -95,8 +93,8 @@ const PersonListFilterDrawer: React.FC = () => {
             </Label>
             <Input
               id="last-name-filter"
-              value={searchTerms.last_name ?? ""}
-              onChange={(e) => updateSearchTerms("last_name", e.target.value)}
+              value={searchTerms.last_name ?? ''}
+              onChange={(e) => updateSearchTerms('last_name', e.target.value)}
             />
           </div>
           <div className="w-full flex flex-col gap-2">
@@ -105,8 +103,8 @@ const PersonListFilterDrawer: React.FC = () => {
             </Label>
             <Input
               id="birth-date-filter"
-              value={searchTerms.birth_date ?? ""}
-              onChange={(e) => updateSearchTerms("birth_date", e.target.value)}
+              value={searchTerms.birth_date ?? ''}
+              onChange={(e) => updateSearchTerms('birth_date', e.target.value)}
             />
           </div>
           <div className="w-full flex flex-col gap-2">
@@ -115,8 +113,8 @@ const PersonListFilterDrawer: React.FC = () => {
             </Label>
             <Input
               id="pid-filter"
-              value={searchTerms.person_id ?? ""}
-              onChange={(e) => updateSearchTerms("person_id", e.target.value)}
+              value={searchTerms.person_id ?? ''}
+              onChange={(e) => updateSearchTerms('person_id', e.target.value)}
             />
           </div>
           <div className="w-full flex flex-col gap-2">
@@ -125,9 +123,9 @@ const PersonListFilterDrawer: React.FC = () => {
             </Label>
             <Input
               id="spid-filter"
-              value={searchTerms.source_person_id ?? ""}
+              value={searchTerms.source_person_id ?? ''}
               onChange={(e) =>
-                updateSearchTerms("source_person_id", e.target.value)
+                updateSearchTerms('source_person_id', e.target.value)
               }
             />
           </div>
@@ -154,23 +152,23 @@ const PersonListFilterDrawer: React.FC = () => {
 };
 
 export const PersonList: React.FC = () => {
-  const router = useRouter();
+  const navigate = useNavigate();
   const matchMode = useAppStore((state) => state.personMatch.matchMode);
   const potentialMatchSummaries = useAppStore(
-    (state) => state.personMatch.potentialMatchSummaries,
+    (state) => state.personMatch.potentialMatchSummaries
   );
   const selectedPotentialMatchId = useAppStore(
-    (state) => state.personMatch.selectedPotentialMatchId,
+    (state) => state.personMatch.selectedPotentialMatchId
   );
   const personSummaries = useAppStore(
-    (state) => state.personMatch.personSummaries,
+    (state) => state.personMatch.personSummaries
   );
   const selectedPersonId = useAppStore(
-    (state) => state.personMatch.selectedPersonId,
+    (state) => state.personMatch.selectedPersonId
   );
   const selectSummary = useAppStore((state) => state.personMatch.selectSummary);
   const clearSearchTerms = useAppStore(
-    (state) => state.personMatch.clearSearchTerms,
+    (state) => state.personMatch.clearSearchTerms
   );
 
   return (
@@ -179,7 +177,7 @@ export const PersonList: React.FC = () => {
       <div className="flex flex-col gap-2">
         <div className="flex flex-row h-[40px] items-center">
           <h3 className="text-primary scroll-m-20 text-xl font-semibold tracking-tight">
-            {matchMode ? "Potential Matches" : "Persons"}
+            {matchMode ? 'Potential Matches' : 'Persons'}
           </h3>
         </div>
         <div className="flex flex-row w-full gap-2 pb-4 border-b-[1px]">
@@ -193,7 +191,7 @@ export const PersonList: React.FC = () => {
       {/* List */}
       <ul className="flex flex-col overflow-y-auto gap-3">
         {Object.values(
-          matchMode ? potentialMatchSummaries : personSummaries,
+          matchMode ? potentialMatchSummaries : personSummaries
         ).map((s) => {
           const selected = matchMode
             ? selectedPotentialMatchId === s.id
@@ -202,7 +200,7 @@ export const PersonList: React.FC = () => {
           return (
             <li
               key={s.id}
-              className={`flex flex-col w-full rounded border gap-1 pt-[1px] pb-1 cursor-pointer ${selected ? "border-[2px] border-ring" : ""}`}
+              className={`flex flex-col w-full rounded border gap-1 pt-[1px] pb-1 cursor-pointer ${selected ? 'border-[2px] border-ring' : ''}`}
               onClick={() => {
                 selectSummary(s.id);
 
@@ -214,9 +212,7 @@ export const PersonList: React.FC = () => {
                   params.matchMode = matchMode.toString();
                 }
 
-                router.push(getRoute(Route.personMatch, undefined, params), {
-                  scroll: false,
-                });
+                navigate(getRoute(Route.personMatch, undefined, params));
               }}
             >
               {matchMode ? (
@@ -224,7 +220,7 @@ export const PersonList: React.FC = () => {
                   <div className="flex flex-row w-full border-b items-center">
                     <p className="text-xs">
                       {formatMatchProbability(
-                        (s as PotentialMatchSummary).max_match_probability,
+                        (s as PotentialMatchSummary).max_match_probability
                       )}
                     </p>
                   </div>
@@ -234,9 +230,9 @@ export const PersonList: React.FC = () => {
               )}
               <ul className="flex flex-col w-full">
                 <li className="flex flex-col py-2 pl-2">
-                  <p className="text-sm">{s.last_name + ", " + s.first_name}</p>
+                  <p className="text-sm">{s.last_name + ', ' + s.first_name}</p>
                   <p className="text-xs text-muted-foreground">
-                    {"{" + s.data_sources.join(", ") + "}"}
+                    {'{' + s.data_sources.join(', ') + '}'}
                   </p>
                 </li>
               </ul>
@@ -247,3 +243,4 @@ export const PersonList: React.FC = () => {
     </div>
   );
 };
+
